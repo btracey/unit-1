@@ -141,6 +141,24 @@ var (
 // dimension is zero. Dimensions is used in conjuction with New.
 type Dimensions map[Dimension]int
 
+func (d Dimensions) GoString() string {
+	atoms := make(unitPrinters, 0, len(d))
+	for dimension, power := range d {
+		atoms = append(atoms, atom{dimension, power})
+	}
+	sort.Sort(atoms)
+	var b bytes.Buffer
+	b.WriteString("unit.Dimensions{")
+	for i, a := range atoms {
+		if i > 0 {
+			b.WriteString(", ")
+		}
+		fmt.Fprintf(&b, "%s:%d", symbols[a.Dimension], a.pow)
+	}
+	b.WriteByte('}')
+	return b.String()
+}
+
 func (d Dimensions) String() string {
 	// Map iterates randomly, but print should be in a fixed order. Can't use
 	// dimension number, because for user-defined dimension that number may
@@ -162,7 +180,6 @@ func (d Dimensions) String() string {
 			fmt.Fprintf(&b, "^%d", a.pow)
 		}
 	}
-
 	return b.String()
 }
 
@@ -178,7 +195,13 @@ func (u unitPrinters) Len() int {
 }
 
 func (u unitPrinters) Less(i, j int) bool {
-	return (u[i].pow > 0 && u[j].pow < 0) || u[i].String() < u[j].String()
+	if u[i].pow > 0 && u[j].pow < 0 {
+		return true
+	}
+	if u[i].pow < 0 && u[j].pow > 0 {
+		return false
+	}
+	return u[i].String() < u[j].String()
 }
 
 func (u unitPrinters) Swap(i, j int) {
@@ -251,6 +274,10 @@ func DimensionsMatch(a, b Uniter) bool {
 		}
 	}
 	return true
+}
+
+func (u Unit) GoString() string {
+	return fmt.Sprintf("unit.Unit{dimensions:%#v, formatted:%#v, value:%v}", u.dimensions, u.formatted, u.value)
 }
 
 // Add adds the function argument to the reciever. Panics if the units of
