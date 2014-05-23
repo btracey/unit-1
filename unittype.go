@@ -276,10 +276,6 @@ func DimensionsMatch(a, b Uniter) bool {
 	return true
 }
 
-func (u Unit) GoString() string {
-	return fmt.Sprintf("unit.Unit{dimensions:%#v, formatted:%#v, value:%v}", u.dimensions, u.formatted, u.value)
-}
-
 // Add adds the function argument to the reciever. Panics if the units of
 // the receiver and the argument don't match.
 func (u *Unit) Add(uniter Uniter) *Unit {
@@ -348,7 +344,7 @@ func (u *Unit) Format(fs fmt.State, c rune) {
 	switch c {
 	case 'v':
 		if fs.Flag('#') {
-			fmt.Fprintf(fs, "&%#v", *u)
+			fmt.Fprintf(fs, "&unit.Unit{dimensions:%s, formatted:%q, value:%v}", u.dimensions.GoString(), u.formatted, u.value)
 			return
 		}
 		fallthrough

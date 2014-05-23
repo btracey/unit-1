@@ -79,9 +79,9 @@ func (d Dimless) Format(fs fmt.State, c rune) {
 			w = -1
 		}
 		fmt.Fprintf(fs, "%*.*"+string(c), w, p, float64(d))
-		fmt.Fprint(fs, " ")
+
 	default:
-		fmt.Fprintf(fs, "%%!%c(%T=%g )", c, d, float64(d))
+		fmt.Fprintf(fs, "%%!%c(%T=%g)", c, d, float64(d))
 		return
 	}
 }

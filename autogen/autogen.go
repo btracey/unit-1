@@ -851,9 +851,9 @@ func ({{.Receiver}} {{.Name}}) Format(fs fmt.State, c rune){
 			w = -1
 		}
 		fmt.Fprintf(fs, "%*.*"+string(c), w, p, float64({{.Receiver}}))
-		fmt.Fprint(fs, " {{.PrintString}}")
+		{{if .PrintString}}fmt.Fprint(fs, " {{.PrintString}}"){{end}}
 	default:
-		fmt.Fprintf(fs, "%%!%c(%T=%g {{.PrintString}})", c, {{.Receiver}}, float64({{.Receiver}}))
+		fmt.Fprintf(fs, "%%!%c(%T=%g{{if .PrintString}} {{.PrintString}}{{end}})", c, {{.Receiver}}, float64({{.Receiver}}))
 	return
 }
 }
