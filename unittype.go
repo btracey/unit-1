@@ -153,7 +153,7 @@ func (d Dimensions) GoString() string {
 		if i > 0 {
 			b.WriteString(", ")
 		}
-		fmt.Fprintf(&b, "%s:%d", symbols[a.Dimension], a.pow)
+		fmt.Fprintf(&b, "%d:%d", a.Dimension, a.pow)
 	}
 	b.WriteByte('}')
 	return b.String()
