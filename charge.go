@@ -44,6 +44,7 @@ const (
 func (ch Charge) Unit() *Unit {
 	return New(float64(ch), Dimensions{
 		CurrentDim: 1,
+		TimeDim:    1,
 	})
 }
 

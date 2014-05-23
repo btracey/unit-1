@@ -44,9 +44,7 @@ const (
 
 // Unit converts the Angle to a *Unit
 func (a Angle) Unit() *Unit {
-	return New(float64(a), Dimensions{
-		CurrentDim: 1,
-	})
+	return New(float64(a), Dimensions{})
 }
 
 // Angle allows Angle to implement a Angleer interface

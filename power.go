@@ -43,7 +43,9 @@ const (
 // Unit converts the Power to a *Unit
 func (p Power) Unit() *Unit {
 	return New(float64(p), Dimensions{
-		CurrentDim: 1,
+		MassDim:   1,
+		LengthDim: 2,
+		TimeDim:   -3,
 	})
 }
 

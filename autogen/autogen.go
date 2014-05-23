@@ -31,8 +31,9 @@ type Dimension struct {
 const (
 	CurrentName           string = "CurrentDim"
 	LengthName            string = "LengthDim"
-	LuminousIntensityName string = "LuminousIntensity"
+	LuminousIntensityName string = "LuminousIntensityDim"
 	MassName              string = "MassDim"
+	SubstanceAmountName   string = "SubstanceAmountDim"
 	TemperatureName       string = "TemperatureDim"
 	TimeName              string = "TimeDim"
 	AngleName             string = "AngleDim"
@@ -137,16 +138,34 @@ var Prefixes = []Prefix{
 
 var Units = []Unit{
 	{
+		Name:        "AbsorbedDose",
+		Receiver:    "g",
+		PrintString: "Gy",
+		Suffix:      "gray",
+		Singular:    "Gray",
+		TypeComment: "AbsorbedDose represents an absorbed dose of ionizing radiation in Grays",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
+			},
+		},
+	},
+	{
 		Name:        "Acceleration",
 		Receiver:    "a",
 		PrintString: "m/s^2",
-		Suffix:      "MPSSq",
-		Singular:    "MPSSq",
+		Suffix:      "UnitAccel",
+		Singular:    "UnitAccel",
 		TypeComment: "Acceleration represents an acceleration in meters per second squared",
-		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
+		Dimensions: []Dimension{
 			{
 				Name:  LengthName,
-				Power: -1,
+				Power: 1,
 			},
 			{
 				Name:  TimeName,
@@ -161,16 +180,55 @@ var Units = []Unit{
 		Suffix:      "radian",
 		Singular:    "Radian",
 		TypeComment: "Angle represents an angle in radians",
-		Dimensions: []Dimension{
-			{
-				Name:  CurrentName,
-				Power: 1,
-			},
-		},
+		Dimensions:  []Dimension{},
 		ExtraConstant: []Constant{
 			{
 				Name:  "Degree",
 				Value: "180/math.Pi",
+			},
+		},
+	},
+	{
+		Name:        "Capacitance",
+		Receiver:    "ca",
+		PrintString: "F",
+		Suffix:      "farad",
+		Singular:    "Farad",
+		TypeComment: "Capacitance represents an electric capacitance in farads",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  CurrentName,
+				Power: 2,
+			},
+			{
+				Name:  LengthName,
+				Power: -2,
+			},
+			{
+				Name:  MassName,
+				Power: -1,
+			},
+			{
+				Name:  TimeName,
+				Power: 4,
+			},
+		},
+	},
+	{
+		Name:        "CatalyticActivity",
+		Receiver:    "ca",
+		PrintString: "kat",
+		Suffix:      "katal",
+		Singular:    "Katal",
+		TypeComment: "CatalyticActivity represents catalytic activity in katals",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  SubstanceAmountName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -1,
 			},
 		},
 	},
@@ -185,6 +243,36 @@ var Units = []Unit{
 			{
 				Name:  CurrentName,
 				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "Conductance",
+		Receiver:    "co",
+		PrintString: "S",
+		Suffix:      "siemens",
+		Singular:    "Siemens",
+		TypeComment: "Conductance represents an electrical conductance in Siemens",
+		Dimensions: []Dimension{ // TODO: Check dimension
+			{
+				Name:  CurrentName,
+				Power: 2,
+			},
+			{
+				Name:  MassName,
+				Power: -1,
+			},
+			{
+				Name:  LengthName,
+				Power: -2,
+			},
+			{
+				Name:  TimeName,
+				Power: 3,
 			},
 		},
 	},
@@ -229,16 +317,24 @@ var Units = []Unit{
 		Dimensions:  []Dimension{},
 	},
 	{
-		Name:        "ElecPoten",
+		Name:        "Energy",
 		Receiver:    "e",
-		PrintString: "V",
-		Suffix:      "volt",
-		Singular:    "Volt",
-		TypeComment: "ElecPoten represents an electric potential in Volts",
-		Dimensions: []Dimension{ // TODO: Check Dimension
+		PrintString: "J",
+		Suffix:      "joule",
+		Singular:    "Joule",
+		TypeComment: "Energy represents an amount of energy in joules",
+		Dimensions: []Dimension{
 			{
-				Name:  CurrentName,
+				Name:  MassName,
 				Power: 1,
+			},
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
 			},
 		},
 	},
@@ -265,8 +361,66 @@ var Units = []Unit{
 		},
 		ExtraConstant: []Constant{
 			{
-				Name:  "EarthGravity",
-				Value: "9.81", // TODO: Check this
+				Name:  "StandardGravity",
+				Value: "9.80665", // TODO: Check this
+			},
+		},
+	},
+	{
+		Name:        "Frequency",
+		Receiver:    "f",
+		PrintString: "Hz",
+		Suffix:      "hertz",
+		Singular:    "Hertz",
+		TypeComment: "Frequency represents a frequency in hertz",
+		Dimensions: []Dimension{
+			{
+				Name:  TimeName,
+				Power: -1,
+			},
+		},
+	},
+	{
+		Name:        "Illuminance",
+		Receiver:    "il",
+		PrintString: "lx",
+		Suffix:      "lux",
+		Singular:    "Lux",
+		TypeComment: "Illuminance represents illuminance in lux",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  LuminousIntensityName,
+				Power: 1,
+			},
+			{
+				Name:  LengthName,
+				Power: -2,
+			},
+		},
+	},
+	{
+		Name:        "Inductance",
+		Receiver:    "in",
+		PrintString: "H",
+		Suffix:      "henry",
+		Singular:    "Henry",
+		TypeComment: "Inductance represents an electrical inductance in henrys",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  CurrentName,
+				Power: -2,
+			},
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
 			},
 		},
 	},
@@ -301,6 +455,60 @@ var Units = []Unit{
 		},
 	},
 	{
+		Name:        "LuminousFlux",
+		Receiver:    "l",
+		PrintString: "Ω",
+		Suffix:      "lumen",
+		Singular:    "Lumen",
+		TypeComment: "LuminousFlux represents a luminous flux in lumens",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  LuminousIntensityName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "LuminousIntensity",
+		Receiver:    "l",
+		PrintString: "cd",
+		Suffix:      "candela",
+		Singular:    "Candela",
+		TypeComment: "LuminousIntensity represents a luminous intensity in candela",
+		Dimensions: []Dimension{
+			{
+				Name:  LuminousIntensityName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "MagneticFlux",
+		Receiver:    "m",
+		PrintString: "Wb",
+		Suffix:      "weber",
+		Singular:    "Weber",
+		TypeComment: "MagneticFlux represents a magnetic flux in webers",
+		Dimensions: []Dimension{ // TODO: Check dimension
+			{
+				Name:  CurrentName,
+				Power: -1,
+			},
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
+			},
+		},
+	},
+	{
 		Name:        "Power",
 		Receiver:    "p",
 		PrintString: "W",
@@ -309,8 +517,16 @@ var Units = []Unit{
 		TypeComment: "Power represents a power in Watts",
 		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
 			{
-				Name:  CurrentName,
+				Name:  MassName,
 				Power: 1,
+			},
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  TimeName,
+				Power: -3,
 			},
 		},
 	},
@@ -347,6 +563,87 @@ var Units = []Unit{
 		},
 	},
 	{
+		Name:        "Resistance",
+		Receiver:    "r",
+		PrintString: "Ω",
+		Suffix:      "ohm",
+		Singular:    "Ohm",
+		TypeComment: "Resistance represents a resistance is ohms",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  CurrentName,
+				Power: -2,
+			},
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -3,
+			},
+		},
+	},
+	{
+		Name:        "Radioactivity",
+		Receiver:    "r",
+		PrintString: "Bq",
+		Suffix:      "becquerel",
+		Singular:    "Becquerel",
+		TypeComment: "Radioactivity represents decays per unit time in Becquerels",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  TimeName,
+				Power: -1,
+			},
+		},
+	},
+	{
+		Name:        "EquivalentDose",
+		Receiver:    "e",
+		PrintString: "Sv",
+		Suffix:      "sievert",
+		Singular:    "Sievert",
+		TypeComment: "EquivalentDose represents an equivalent dose of ionizing radiaton in sieverts",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
+			},
+		},
+	},
+	{
+		Name:        "SolidAngle",
+		Receiver:    "s",
+		PrintString: "sr",
+		Suffix:      "steradian",
+		Singular:    "Steradian",
+		TypeComment: "SolidAngle represents a solid angle in steradians",
+		Dimensions:  []Dimension{},
+	},
+	{
+		Name:        "SubstanceAmount",
+		Receiver:    "s",
+		PrintString: "mol",
+		Suffix:      "mol",
+		Singular:    "Mol",
+		TypeComment: "SubstanceAmount represents a substance amount in mol",
+		Dimensions: []Dimension{
+			{
+				Name:  SubstanceAmountName,
+				Power: 1,
+			},
+		},
+	},
+	{
 		Name:        "Temperature",
 		Receiver:    "t",
 		PrintString: "K",
@@ -357,6 +654,28 @@ var Units = []Unit{
 			{
 				Name:  TemperatureName,
 				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "MagneticFieldStrength",
+		Receiver:    "t",
+		PrintString: "T",
+		Suffix:      "tesla",
+		Singular:    "Tesla",
+		TypeComment: "Tesla represents a magnetic field strength in tesla",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  CurrentName,
+				Power: -1,
+			},
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
 			},
 		},
 	},
@@ -403,6 +722,32 @@ var Units = []Unit{
 			},
 		},
 		// Speed of light?
+	},
+	{
+		Name:        "Voltage",
+		Receiver:    "e",
+		PrintString: "V",
+		Suffix:      "volt",
+		Singular:    "Volt",
+		TypeComment: "ElecPoten represents an electric potential in Volts",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  CurrentName,
+				Power: -1,
+			},
+			{
+				Name:  LengthName,
+				Power: 2,
+			},
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -3,
+			},
+		},
 	},
 }
 

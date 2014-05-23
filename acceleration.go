@@ -17,33 +17,33 @@ import (
 type Acceleration float64
 
 const (
-	YottaMPSSq Acceleration = 1e24
-	ZettaMPSSq Acceleration = 1e21
-	ExaMPSSq   Acceleration = 1e18
-	PetaMPSSq  Acceleration = 1e15
-	TeraMPSSq  Acceleration = 1e12
-	GigaMPSSq  Acceleration = 1e9
-	MegaMPSSq  Acceleration = 1e6
-	KiloMPSSq  Acceleration = 1e3
-	HectoMPSSq Acceleration = 1e2
-	DecaMPSSq  Acceleration = 1e1
-	MPSSq      Acceleration = 1.0
-	DeciMPSSq  Acceleration = 1e-1
-	CentiMPSSq Acceleration = 1e-2
-	MilliMPSSq Acceleration = 1e-3
-	MicroMPSSq Acceleration = 1e-6
-	NanoMPSSq  Acceleration = 1e-9
-	PicoMPSSq  Acceleration = 1e-12
-	FemtoMPSSq Acceleration = 1e-15
-	AttoMPSSq  Acceleration = 1e-18
-	ZeptoMPSSq Acceleration = 1e-21
-	YoctoMPSSq Acceleration = 1e-24
+	YottaUnitAccel Acceleration = 1e24
+	ZettaUnitAccel Acceleration = 1e21
+	ExaUnitAccel   Acceleration = 1e18
+	PetaUnitAccel  Acceleration = 1e15
+	TeraUnitAccel  Acceleration = 1e12
+	GigaUnitAccel  Acceleration = 1e9
+	MegaUnitAccel  Acceleration = 1e6
+	KiloUnitAccel  Acceleration = 1e3
+	HectoUnitAccel Acceleration = 1e2
+	DecaUnitAccel  Acceleration = 1e1
+	UnitAccel      Acceleration = 1.0
+	DeciUnitAccel  Acceleration = 1e-1
+	CentiUnitAccel Acceleration = 1e-2
+	MilliUnitAccel Acceleration = 1e-3
+	MicroUnitAccel Acceleration = 1e-6
+	NanoUnitAccel  Acceleration = 1e-9
+	PicoUnitAccel  Acceleration = 1e-12
+	FemtoUnitAccel Acceleration = 1e-15
+	AttoUnitAccel  Acceleration = 1e-18
+	ZeptoUnitAccel Acceleration = 1e-21
+	YoctoUnitAccel Acceleration = 1e-24
 )
 
 // Unit converts the Acceleration to a *Unit
 func (a Acceleration) Unit() *Unit {
 	return New(float64(a), Dimensions{
-		LengthDim: -1,
+		LengthDim: 1,
 		TimeDim:   -2,
 	})
 }
@@ -56,7 +56,7 @@ func (a Acceleration) Acceleration() Acceleration {
 // From converts the unit into the receiver. From returns an
 // error if there is a mismatch in dimension
 func (a *Acceleration) From(u Uniter) error {
-	if !DimensionsMatch(u, MPSSq) {
+	if !DimensionsMatch(u, UnitAccel) {
 		*a = Acceleration(math.NaN())
 		return errors.New("Dimension mismatch")
 	}

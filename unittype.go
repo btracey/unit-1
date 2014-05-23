@@ -48,6 +48,7 @@ const (
 	LengthDim
 	LuminousIntensityDim
 	MassDim
+	SubstanceAmountDim
 	TemperatureDim
 	TimeDim
 	// Other common SI Dimensions
@@ -60,6 +61,7 @@ var (
 		LengthDim:            "m",
 		LuminousIntensityDim: "cd",
 		MassDim:              "kg",
+		SubstanceAmountDim:   "mol",
 		TemperatureDim:       "K",
 		TimeDim:              "s",
 		AngleDim:             "rad",
@@ -76,8 +78,6 @@ var (
 		"rad": AngleDim,
 
 		// Reserve common SI symbols
-		// base units
-		"mol": reserved,
 		// prefixes
 		"Y":  reserved,
 		"Z":  reserved,

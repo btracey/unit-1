@@ -17,7 +17,7 @@ import (
 type Force float64
 
 const (
-	EarthGravity Force = 9.81
+	StandardGravity Force = 9.80665
 
 	Yottanewton Force = 1e24
 	Zettanewton Force = 1e21
