@@ -29,9 +29,13 @@ type Dimension struct {
 }
 
 const (
-	TimeName   string = "TimeDim"
-	LengthName string = "LengthDim"
-	MassName   string = "MassDim"
+	CurrentName           string = "CurrentDim"
+	LengthName            string = "LengthDim"
+	LuminousIntensityName string = "LuminousIntensity"
+	MassName              string = "MassDim"
+	TemperatureName       string = "TemperatureDim"
+	TimeName              string = "TimeDim"
+	AngleName             string = "AngleDim"
 )
 
 type Constant struct {
@@ -133,6 +137,140 @@ var Prefixes = []Prefix{
 
 var Units = []Unit{
 	{
+		Name:        "Acceleration",
+		Receiver:    "a",
+		PrintString: "m/s^2",
+		Suffix:      "MPSSq",
+		Singular:    "MPSSq",
+		TypeComment: "Acceleration represents an acceleration in meters per second squared",
+		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
+			{
+				Name:  LengthName,
+				Power: -1,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
+			},
+		},
+	},
+	{
+		Name:        "Angle",
+		Receiver:    "a",
+		PrintString: "rad",
+		Suffix:      "radian",
+		Singular:    "Radian",
+		TypeComment: "Angle represents an angle in radians",
+		Dimensions: []Dimension{
+			{
+				Name:  CurrentName,
+				Power: 1,
+			},
+		},
+		ExtraConstant: []Constant{
+			{
+				Name:  "Degree",
+				Value: "180/math.Pi",
+			},
+		},
+	},
+	{
+		Name:        "Charge",
+		Receiver:    "ch", // because c is used for the rune
+		PrintString: "C",
+		Suffix:      "coulomb", // TODO: Check spelling
+		Singular:    "Coulomb",
+		TypeComment: "Change represents an electric charge in Coulombs",
+		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
+			{
+				Name:  CurrentName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "Current",
+		Receiver:    "a",
+		PrintString: "A",
+		Suffix:      "ampere",
+		Singular:    "Ampere",
+		TypeComment: "Current represents an electric current in Amperes",
+		Dimensions: []Dimension{ // TODO: Check dimension
+			{
+				Name:  CurrentName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "Density",
+		Receiver:    "d",
+		PrintString: "kg/m^3",
+		Suffix:      "KgPMCubed",
+		Singular:    "KgPMCubed",
+		TypeComment: "Density represents a density in kilograms per meters cubed",
+		Dimensions: []Dimension{
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  LengthName,
+				Power: -3,
+			},
+		},
+	},
+	{
+		Name:        "Dimless",
+		Receiver:    "d",
+		Suffix:      "one",
+		Singular:    "One",
+		TypeComment: "Dimless represents a dimensionless constant",
+		Dimensions:  []Dimension{},
+	},
+	{
+		Name:        "ElecPoten",
+		Receiver:    "e",
+		PrintString: "V",
+		Suffix:      "volt",
+		Singular:    "Volt",
+		TypeComment: "ElecPoten represents an electric potential in Volts",
+		Dimensions: []Dimension{ // TODO: Check Dimension
+			{
+				Name:  CurrentName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "Force",
+		Receiver:    "f",
+		PrintString: "N",
+		Suffix:      "newton",
+		Singular:    "Newton",
+		TypeComment: "Force represents a force in Newtons",
+		Dimensions: []Dimension{
+			{
+				Name:  LengthName,
+				Power: 1,
+			},
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
+			},
+		},
+		ExtraConstant: []Constant{
+			{
+				Name:  "EarthGravity",
+				Value: "9.81", // TODO: Check this
+			},
+		},
+	},
+	{
 		Name:        "Mass",
 		Receiver:    "m",
 		Offset:      -3,
@@ -157,6 +295,67 @@ var Units = []Unit{
 		Dimensions: []Dimension{
 			{
 				Name:  LengthName,
+				Power: 1,
+			},
+			// AU?
+		},
+	},
+	{
+		Name:        "Power",
+		Receiver:    "p",
+		PrintString: "W",
+		Suffix:      "watt",
+		Singular:    "Watt",
+		TypeComment: "Power represents a power in Watts",
+		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
+			{
+				Name:  CurrentName,
+				Power: 1,
+			},
+		},
+	},
+	{
+		Name:        "Pressure",
+		Receiver:    "p",
+		PrintString: "Pa",
+		Suffix:      "pascal",
+		Singular:    "Pascal",
+		TypeComment: "Pressure represents a pressure in Pascals",
+		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
+			{
+				Name:  MassName,
+				Power: 1,
+			},
+			{
+				Name:  LengthName,
+				Power: -1,
+			},
+			{
+				Name:  TimeName,
+				Power: -2,
+			},
+		},
+		ExtraConstant: []Constant{
+			{
+				Name:  "Bar",
+				Value: "1e5",
+			},
+			{
+				Name:  "Atmosphere",
+				Value: "1.01e5", // TODO: Check this value
+			},
+		},
+	},
+	{
+		Name:        "Temperature",
+		Receiver:    "t",
+		PrintString: "K",
+		Suffix:      "kelvin",
+		Singular:    "Kelvin",
+		TypeComment: "Temperature represents a temperature in Kelvin",
+		Dimensions: []Dimension{ // N/m^2 = (kg-m/s^2)/(m^2) = kg/(m-s^2)
+			{
+				Name:  TemperatureName,
 				Power: 1,
 			},
 		},
@@ -186,6 +385,25 @@ var Units = []Unit{
 		},
 		ErForm: "Timer",
 	},
+	{
+		Name:        "Velocity",
+		Receiver:    "v",
+		PrintString: "m/s",
+		Suffix:      "MPS",
+		Singular:    "MPS",
+		TypeComment: "Velocity represents a velocity in meters per second",
+		Dimensions: []Dimension{
+			{
+				Name:  LengthName,
+				Power: 1,
+			},
+			{
+				Name:  TimeName,
+				Power: -1,
+			},
+		},
+		// Speed of light?
+	},
 }
 
 var gopath string
@@ -197,7 +415,7 @@ func init() {
 		log.Fatal("no gopath")
 	}
 
-	unitPkgPath = filepath.Join(gopath, "src", "github.com", "gonum", "unit")
+	unitPkgPath = filepath.Join(gopath, "src", "github.com", "btracey", "unit-1")
 }
 
 // Generate generates a file for each of the units
