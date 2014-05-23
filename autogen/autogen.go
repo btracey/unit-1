@@ -760,7 +760,7 @@ func init() {
 		log.Fatal("no gopath")
 	}
 
-	unitPkgPath = filepath.Join(gopath, "src", "github.com", "btracey", "unit-1")
+	unitPkgPath = filepath.Join(gopath, "src", "github.com", "gonum", "unit")
 }
 
 // Generate generates a file for each of the units
