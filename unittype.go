@@ -195,13 +195,7 @@ func (u unitPrinters) Len() int {
 }
 
 func (u unitPrinters) Less(i, j int) bool {
-	if u[i].pow > 0 && u[j].pow < 0 {
-		return true
-	}
-	if u[i].pow < 0 && u[j].pow > 0 {
-		return false
-	}
-	return u[i].String() < u[j].String()
+	return (u[i].pow > 0 && u[j].pow < 0) || u[i].String() < u[j].String()
 }
 
 func (u unitPrinters) Swap(i, j int) {
