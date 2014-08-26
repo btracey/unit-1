@@ -16,30 +16,6 @@ import (
 // Velocity represents a velocity in meters per second
 type Velocity float64
 
-const (
-	YottaMPS Velocity = 1e24
-	ZettaMPS Velocity = 1e21
-	ExaMPS   Velocity = 1e18
-	PetaMPS  Velocity = 1e15
-	TeraMPS  Velocity = 1e12
-	GigaMPS  Velocity = 1e9
-	MegaMPS  Velocity = 1e6
-	KiloMPS  Velocity = 1e3
-	HectoMPS Velocity = 1e2
-	DecaMPS  Velocity = 1e1
-	MPS      Velocity = 1.0
-	DeciMPS  Velocity = 1e-1
-	CentiMPS Velocity = 1e-2
-	MilliMPS Velocity = 1e-3
-	MicroMPS Velocity = 1e-6
-	NanoMPS  Velocity = 1e-9
-	PicoMPS  Velocity = 1e-12
-	FemtoMPS Velocity = 1e-15
-	AttoMPS  Velocity = 1e-18
-	ZeptoMPS Velocity = 1e-21
-	YoctoMPS Velocity = 1e-24
-)
-
 // Unit converts the Velocity to a *Unit
 func (v Velocity) Unit() *Unit {
 	return New(float64(v), Dimensions{
@@ -56,7 +32,7 @@ func (v Velocity) Velocity() Velocity {
 // From converts the unit into the receiver. From returns an
 // error if there is a mismatch in dimension
 func (v *Velocity) From(u Uniter) error {
-	if !DimensionsMatch(u, MPS) {
+	if !DimensionsMatch(u) {
 		*v = Velocity(math.NaN())
 		return errors.New("Dimension mismatch")
 	}

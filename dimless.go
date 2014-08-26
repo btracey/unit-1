@@ -16,30 +16,6 @@ import (
 // Dimless represents a dimensionless constant
 type Dimless float64
 
-const (
-	Yottaone Dimless = 1e24
-	Zettaone Dimless = 1e21
-	Exaone   Dimless = 1e18
-	Petaone  Dimless = 1e15
-	Teraone  Dimless = 1e12
-	Gigaone  Dimless = 1e9
-	Megaone  Dimless = 1e6
-	Kiloone  Dimless = 1e3
-	Hectoone Dimless = 1e2
-	Decaone  Dimless = 1e1
-	One      Dimless = 1.0
-	Decione  Dimless = 1e-1
-	Centione Dimless = 1e-2
-	Millione Dimless = 1e-3
-	Microone Dimless = 1e-6
-	Nanoone  Dimless = 1e-9
-	Picoone  Dimless = 1e-12
-	Femtoone Dimless = 1e-15
-	Attoone  Dimless = 1e-18
-	Zeptoone Dimless = 1e-21
-	Yoctoone Dimless = 1e-24
-)
-
 // Unit converts the Dimless to a *Unit
 func (d Dimless) Unit() *Unit {
 	return New(float64(d), Dimensions{})
@@ -53,7 +29,7 @@ func (d Dimless) Dimless() Dimless {
 // From converts the unit into the receiver. From returns an
 // error if there is a mismatch in dimension
 func (d *Dimless) From(u Uniter) error {
-	if !DimensionsMatch(u, One) {
+	if !DimensionsMatch(u) {
 		*d = Dimless(math.NaN())
 		return errors.New("Dimension mismatch")
 	}

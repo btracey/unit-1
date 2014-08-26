@@ -16,30 +16,6 @@ import (
 // Acceleration represents an acceleration in meters per second squared
 type Acceleration float64
 
-const (
-	YottaUnitAccel Acceleration = 1e24
-	ZettaUnitAccel Acceleration = 1e21
-	ExaUnitAccel   Acceleration = 1e18
-	PetaUnitAccel  Acceleration = 1e15
-	TeraUnitAccel  Acceleration = 1e12
-	GigaUnitAccel  Acceleration = 1e9
-	MegaUnitAccel  Acceleration = 1e6
-	KiloUnitAccel  Acceleration = 1e3
-	HectoUnitAccel Acceleration = 1e2
-	DecaUnitAccel  Acceleration = 1e1
-	UnitAccel      Acceleration = 1.0
-	DeciUnitAccel  Acceleration = 1e-1
-	CentiUnitAccel Acceleration = 1e-2
-	MilliUnitAccel Acceleration = 1e-3
-	MicroUnitAccel Acceleration = 1e-6
-	NanoUnitAccel  Acceleration = 1e-9
-	PicoUnitAccel  Acceleration = 1e-12
-	FemtoUnitAccel Acceleration = 1e-15
-	AttoUnitAccel  Acceleration = 1e-18
-	ZeptoUnitAccel Acceleration = 1e-21
-	YoctoUnitAccel Acceleration = 1e-24
-)
-
 // Unit converts the Acceleration to a *Unit
 func (a Acceleration) Unit() *Unit {
 	return New(float64(a), Dimensions{
@@ -56,7 +32,7 @@ func (a Acceleration) Acceleration() Acceleration {
 // From converts the unit into the receiver. From returns an
 // error if there is a mismatch in dimension
 func (a *Acceleration) From(u Uniter) error {
-	if !DimensionsMatch(u, UnitAccel) {
+	if !DimensionsMatch(u) {
 		*a = Acceleration(math.NaN())
 		return errors.New("Dimension mismatch")
 	}

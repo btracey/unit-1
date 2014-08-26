@@ -16,30 +16,6 @@ import (
 // Density represents a density in kilograms per meters cubed
 type Density float64
 
-const (
-	YottaKgPMCubed Density = 1e24
-	ZettaKgPMCubed Density = 1e21
-	ExaKgPMCubed   Density = 1e18
-	PetaKgPMCubed  Density = 1e15
-	TeraKgPMCubed  Density = 1e12
-	GigaKgPMCubed  Density = 1e9
-	MegaKgPMCubed  Density = 1e6
-	KiloKgPMCubed  Density = 1e3
-	HectoKgPMCubed Density = 1e2
-	DecaKgPMCubed  Density = 1e1
-	KgPMCubed      Density = 1.0
-	DeciKgPMCubed  Density = 1e-1
-	CentiKgPMCubed Density = 1e-2
-	MilliKgPMCubed Density = 1e-3
-	MicroKgPMCubed Density = 1e-6
-	NanoKgPMCubed  Density = 1e-9
-	PicoKgPMCubed  Density = 1e-12
-	FemtoKgPMCubed Density = 1e-15
-	AttoKgPMCubed  Density = 1e-18
-	ZeptoKgPMCubed Density = 1e-21
-	YoctoKgPMCubed Density = 1e-24
-)
-
 // Unit converts the Density to a *Unit
 func (d Density) Unit() *Unit {
 	return New(float64(d), Dimensions{
@@ -56,7 +32,7 @@ func (d Density) Density() Density {
 // From converts the unit into the receiver. From returns an
 // error if there is a mismatch in dimension
 func (d *Density) From(u Uniter) error {
-	if !DimensionsMatch(u, KgPMCubed) {
+	if !DimensionsMatch(u) {
 		*d = Density(math.NaN())
 		return errors.New("Dimension mismatch")
 	}

@@ -159,8 +159,6 @@ var Units = []Unit{
 		Name:        "Acceleration",
 		Receiver:    "a",
 		PrintString: "m/s^2",
-		Suffix:      "UnitAccel",
-		Singular:    "UnitAccel",
 		TypeComment: "Acceleration represents an acceleration in meters per second squared",
 		Dimensions: []Dimension{
 			{
@@ -294,8 +292,6 @@ var Units = []Unit{
 		Name:        "Density",
 		Receiver:    "d",
 		PrintString: "kg/m^3",
-		Suffix:      "KgPMCubed",
-		Singular:    "KgPMCubed",
 		TypeComment: "Density represents a density in kilograms per meters cubed",
 		Dimensions: []Dimension{
 			{
@@ -311,8 +307,6 @@ var Units = []Unit{
 	{
 		Name:        "Dimless",
 		Receiver:    "d",
-		Suffix:      "one",
-		Singular:    "One",
 		TypeComment: "Dimless represents a dimensionless constant",
 		Dimensions:  []Dimension{},
 	},
@@ -451,7 +445,6 @@ var Units = []Unit{
 				Name:  LengthName,
 				Power: 1,
 			},
-			// AU?
 		},
 	},
 	{
@@ -708,8 +701,6 @@ var Units = []Unit{
 		Name:        "Velocity",
 		Receiver:    "v",
 		PrintString: "m/s",
-		Suffix:      "MPS",
-		Singular:    "MPS",
 		TypeComment: "Velocity represents a velocity in meters per second",
 		Dimensions: []Dimension{
 			{
@@ -893,10 +884,11 @@ func generate(unit Unit) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	err = prefix.Execute(buf, data)
-	if err != nil {
-		log.Fatal(err)
+	if data.Unit.Suffix != "" {
+		err = prefix.Execute(buf, data)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	err = methods.Execute(buf, unit)
